@@ -1,0 +1,21 @@
+{
+  "name": "moi-api",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "npm run build && func start",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@azure/functions": "^4.7.1",
+    "cheerio": "^1.1.0",
+    "undici": "^7.13.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.30",
+    "typescript": "^5.8.3",
+    "vitest": "^2.1.8"
+  },
+  "main": "dist/src/functions/*.js"
+}

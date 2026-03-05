@@ -1,0 +1,10 @@
+node_modules/
+*.log
+.DS_Store
+.env
+.env.*
+api/dist/
+app/dist/
+shared/dist/
+shared/src/*.js
+coverage/
