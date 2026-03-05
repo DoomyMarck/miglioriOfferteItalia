@@ -1,4 +1,4 @@
-# Migliori Offerte Italia (MVP)
+    # Migliori Offerte Italia (MVP)
 
 Web app MVP pubblicabile su Azure Static Web Apps per ricerca offerte con scraping server-side "gentile" da pagine pubbliche.
 
