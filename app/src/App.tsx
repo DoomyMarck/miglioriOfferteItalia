@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import type { SearchResult, SourceError } from "@shared/types";
-import { fetchSources, searchOffers, type SourceInfo } from "./api";
+import type { Category, SearchResult, SourceError } from "@shared/types";
+import { fetchCategories, fetchSources, searchOffers, type SourceInfo } from "./api";
 
 type SortDirection = "asc" | "desc";
 type ThemeMode = "sunrise" | "slate";
@@ -19,6 +19,7 @@ export function App() {
   const [results, setResults] = useState<SearchResult[]>([]);
   const [errors, setErrors] = useState<SourceError[]>([]);
   const [shoppingList, setShoppingList] = useState<ShoppingEntry[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(false);
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
   const [message, setMessage] = useState<string>("");
@@ -51,6 +52,14 @@ export function App() {
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEYS.selectedSources, JSON.stringify(selectedSources));
+  }, [selectedSources]);
+
+  useEffect(() => {
+    if (selectedSources.length === 0) {
+      setCategories([]);
+      return;
+    }
+    fetchCategories(selectedSources).then(setCategories).catch(() => setCategories([]));
   }, [selectedSources]);
 
   useEffect(() => {
@@ -91,14 +100,12 @@ export function App() {
     return shoppingList.reduce((acc, e) => acc + (e.item.price ?? 0) * e.qty, 0);
   }, [shoppingList]);
 
-  async function onSearch(event: React.FormEvent) {
-    event.preventDefault();
+  async function doSearch(q: string) {
     setLoading(true);
     setMessage("");
     setErrors([]);
-
     try {
-      const response = await searchOffers(query, selectedSources);
+      const response = await searchOffers(q, selectedSources);
       setResults(response.results);
       setErrors(response.errors);
       if (response.results.length === 0) {
@@ -111,6 +118,16 @@ export function App() {
     } finally {
       setLoading(false);
     }
+  }
+
+  function onSearch(event: React.FormEvent) {
+    event.preventDefault();
+    doSearch(query);
+  }
+
+  function onCategoryClick(label: string) {
+    setQuery(label);
+    doSearch(label);
   }
 
   function toggleSource(id: string) {
@@ -201,6 +218,21 @@ export function App() {
                 ))}
               </div>
             </fieldset>
+            {categories.length > 0 && (
+              <div className="category-chips" role="list" aria-label="Categorie rapide">
+                {categories.map((cat) => (
+                  <button
+                    key={cat.id}
+                    type="button"
+                    className="category-chip"
+                    onClick={() => onCategoryClick(cat.label)}
+                    role="listitem"
+                  >
+                    {cat.emoji} {cat.label}
+                  </button>
+                ))}
+              </div>
+            )}
           </form>
 
           {message && <p className="message">{message}</p>}

@@ -1,3 +1,13 @@
+export type Category = {
+  id: string;
+  label: string;
+  emoji: string;
+};
+
+export type CategoriesResponse = {
+  categories: Category[];
+};
+
 export type SearchResult = {
   source: string;
   title: string;
@@ -14,6 +24,7 @@ export interface SourceAdapter {
   id: string;
   label: string;
   supports: { search: boolean };
+  categories: Category[];
   search(query: string): Promise<SearchResult[]>;
 }
 

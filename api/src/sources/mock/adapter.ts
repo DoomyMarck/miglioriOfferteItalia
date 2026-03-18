@@ -20,6 +20,12 @@ export const mockAdapter: SourceAdapter = {
   id: "mock",
   label: "Mock Offers",
   supports: { search: true },
+  categories: [
+    { id: "pasta",   label: "Pasta",   emoji: "🍝" },
+    { id: "carne",   label: "Carne",   emoji: "🥩" },
+    { id: "frutta",  label: "Frutta",  emoji: "🍎" },
+    { id: "bevande", label: "Bevande", emoji: "🧃" },
+  ],
   async search(query: string): Promise<SearchResult[]> {
     return Array.from({ length: 8 }, (_, idx) => buildMockResult(query, idx));
   },

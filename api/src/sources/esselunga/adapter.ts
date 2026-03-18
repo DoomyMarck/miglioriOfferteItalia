@@ -14,6 +14,18 @@ export const esselungaAdapter: SourceAdapter = {
   id: "esselunga",
   label: "Esselunga Volantini",
   supports: { search: true },
+  categories: [
+    { id: "pasta",     label: "Pasta",     emoji: "🍝" },
+    { id: "pane",      label: "Pane",      emoji: "🍞" },
+    { id: "carne",     label: "Carne",     emoji: "🥩" },
+    { id: "pesce",     label: "Pesce",     emoji: "🐟" },
+    { id: "latticini", label: "Latticini", emoji: "🥛" },
+    { id: "verdura",   label: "Verdura",   emoji: "🥦" },
+    { id: "frutta",    label: "Frutta",    emoji: "🍎" },
+    { id: "bevande",   label: "Bevande",   emoji: "🧃" },
+    { id: "dolci",     label: "Dolci",     emoji: "🍬" },
+    { id: "igiene",    label: "Igiene",    emoji: "🧴" },
+  ],
   async search(query: string): Promise<SearchResult[]> {
     const normalizedQuery = normalizeQuery(query);
     const entryHtml = await fetchHtml(ENTRY_URL);

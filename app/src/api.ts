@@ -1,4 +1,4 @@
-import type { SearchResponse } from "@shared/types";
+import type { SearchResponse, Category } from "@shared/types";
 
 export type SourceInfo = {
   id: string;
@@ -11,6 +11,15 @@ export async function fetchSources(): Promise<SourceInfo[]> {
   if (!res.ok) throw new Error("Unable to load sources");
   const body = (await res.json()) as { sources: SourceInfo[] };
   return body.sources;
+}
+
+export async function fetchCategories(sourceIds: string[]): Promise<Category[]> {
+  const params = new URLSearchParams();
+  if (sourceIds.length > 0) params.set("sources", sourceIds.join(","));
+  const res = await fetch(`/api/categories?${params.toString()}`);
+  if (!res.ok) return [];
+  const body = (await res.json()) as { categories: Category[] };
+  return body.categories;
 }
 
 export async function searchOffers(query: string, sourceIds: string[]): Promise<SearchResponse> {
