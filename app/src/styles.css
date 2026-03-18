@@ -103,6 +103,8 @@ fieldset {
 
 .table-wrap {
   overflow-x: auto;
+  max-height: 420px;
+  overflow-y: auto;
 }
 
 table {
@@ -153,8 +155,42 @@ td {
   align-items: center;
 }
 
-.shopping-card li button {
-  background: var(--ok);
+.qty-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.qty-controls button {
+  padding: 0.25rem 0.5rem;
+  min-width: 1.8rem;
+  background: var(--accent);
+}
+.qty-controls span {
+  min-width: 1.5rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.spinner {
+  display: inline-block;
+  width: 0.85em;
+  height: 0.85em;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.65s linear infinite;
+  vertical-align: middle;
+  margin-right: 0.4em;
+}
+
+thead th {
+  position: sticky;
+  top: 0;
+  background: var(--card);
+  z-index: 1;
 }
 
 @media (max-width: 768px) {
